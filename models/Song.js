@@ -1,0 +1,42 @@
+const mongoose = require('mongoose')
+const jwt = require('jsonwebtoken')
+
+const SongSchema = new mongoose.Schema({
+    name:{
+        type:String,
+        required:[true,'Please provide song name'],
+        maxlength:50
+
+    },
+    author:{
+        type:String,
+        required:[true,'Please provide author'],
+        maxlength:50
+    },
+    key:{
+        type:String,
+        required:[true,'Please provide key'],
+        enum:['A','B','C','D','F','G']
+    },
+    firstChord:{
+        type:String,
+        enum:['A','B','C','D','F','G']
+    },
+    capo:{
+        type:Number,
+    },
+    bmp:{
+        type:Number,
+    },
+    system:{
+        type:String,
+        enum:['American','Italian']
+    },
+    createdBy:{
+        type:mongoose.Types.ObjectId,
+        ref:'User',
+        required:[true,'please provide user']
+    }
+},{timestamps:true})
+
+module.exports = mongoose.model('Song',SongSchema)
