@@ -6,7 +6,6 @@ const SongSchema = new mongoose.Schema({
         type:String,
         required:[true,'Please provide song name'],
         maxlength:50
-
     },
     author:{
         type:String,
@@ -16,11 +15,12 @@ const SongSchema = new mongoose.Schema({
     key:{
         type:String,
         required:[true,'Please provide key'],
-        enum:['A','B','C','D','F','G']
+        enum:['Ab','A','A#','Bb','B','C','C#','Db','D','D#','Eb','E','F','F#','Gb','G','G#']
+
     },
     firstChord:{
         type:String,
-        enum:['A','B','C','D','F','G']
+        enum:['Ab','A','A#','Bb','B','C','C#','Db','D','D#','Eb','E','F','F#','Gb','G','G#']
     },
     capo:{
         type:Number,
