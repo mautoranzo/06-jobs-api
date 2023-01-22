@@ -17,7 +17,7 @@ async function buildSongsTable(songsTable, songsTableHeader, token, message) {
                 for (let i = 0; i < data.songs.length; i++) {
                     let editButton = `<td><button type="button" class="editButton" data-id=${data.songs[i]._id}>edit</button></td>`;
                     let deleteButton = `<td><button type="button" class="deleteButton" data-id=${data.songs[i]._id}>delete</button></td>`;
-                    let rowHTML = `<td>${data.songs[i].songName}</td><td>${data.songs[i].author}</td><td>${data.songs[i].key}</td>${editButton}${deleteButton}`;
+                    let rowHTML = `<td>${data.songs[i].songName}</td><td>${data.songs[i].author}</td><td>${data.songs[i].key}</td><td>${data.songs[i].firstChord}</td>${editButton}${deleteButton}`;
                     let rowEntry = document.createElement("tr");
                     rowEntry.innerHTML = rowHTML;
                     children.push(rowEntry);
@@ -213,12 +213,14 @@ document.addEventListener("DOMContentLoaded", () => {
             songName.value = "";
             author.value = "";
             key.value = "C";
+            firstChord.value = key.value
             addingSong.textContent = "add";
         } else if (e.target === editCancel) {
             showing.style.display = "none";
             songName.value = "";
             author.value = "";
             key.value = "C";
+            firstChord.value = key.value
             thisEvent = new Event("startDisplay");
             document.dispatchEvent(thisEvent);
         } else if (e.target === addingSong) {
@@ -236,6 +238,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 songName: songName.value,
                                 author: author.value,
                                 key: key.value,
+                                firstChord: firstChord.value
                             }),
                         });
                         const data = await response.json();
@@ -248,6 +251,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             songName.value = "";
                             author.value = "";
                             key.value = "C";
+                            firstChord.value = key.value
                         } else {
                         // failure
                             message.textContent = data.msg;
@@ -271,6 +275,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             songName: songName.value,
                             author: author.value,
                             key: key.value,
+                            firstChord: firstChord.value
                         }),
                     });
                     const data = await response.json();
@@ -280,6 +285,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         songName.value = "";
                         author.value = "";
                         key.value = "C";
+                        firstChord.value = key.value
                         thisEvent = new Event("startDisplay");
                         document.dispatchEvent(thisEvent);
                     } else {
@@ -307,6 +313,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     songName.value = data.song.songName;
                     author.value = data.song.author;
                     key.value = data.song.key;
+                    firstChord.value = data.song.firstChord
                     showing.style.display = "none";
                     showing = editSong;
                     showing.style.display = "block";
@@ -339,8 +346,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (response.status === 200) {
                     message.textContent = data.msg;
                     showing.style.display = "none";
-                    // thisEvent = new Event("startDisplay");
-                    // document.dispatchEvent(thisEvent);
+                    thisEvent = new Event("startDisplay");
+                    document.dispatchEvent(thisEvent);
                 } else {
                     // might happen if the list has been updated since last display
                     message.textContent = "The songs entry was not found";
