@@ -17,7 +17,15 @@ async function buildSongsTable(songsTable, songsTableHeader, token, message) {
                 for (let i = 0; i < data.songs.length; i++) {
                     let editButton = `<td><button type="button" class="editButton" data-id=${data.songs[i]._id}>edit</button></td>`;
                     let deleteButton = `<td><button type="button" class="deleteButton" data-id=${data.songs[i]._id}>delete</button></td>`;
-                    let rowHTML = `<td>${data.songs[i].songName}</td><td>${data.songs[i].author}</td><td>${data.songs[i].key}</td><td>${data.songs[i].firstChord}</td>${editButton}${deleteButton}`;
+                    let rowHTML = `
+                    <td>${data.songs[i].songName}</td>
+                    <td>${data.songs[i].author}</td>
+                    <td>${data.songs[i].key}</td>
+                    <td>${data.songs[i].firstChord}</td>
+                    <td>${data.songs[i].capo}</td>
+                    <td>${data.songs[i].bpm}</td>
+                    <td>${data.songs[i].system}</td>
+                    ${editButton}${deleteButton}`;
                     let rowEntry = document.createElement("tr");
                     rowEntry.innerHTML = rowHTML;
                     children.push(rowEntry);
@@ -214,6 +222,9 @@ document.addEventListener("DOMContentLoaded", () => {
             author.value = "";
             key.value = "C";
             firstChord.value = key.value
+            capo.value = ""
+            bpm.value = ""
+            system.value = ""
             addingSong.textContent = "add";
         } else if (e.target === editCancel) {
             showing.style.display = "none";
@@ -221,6 +232,9 @@ document.addEventListener("DOMContentLoaded", () => {
             author.value = "";
             key.value = "C";
             firstChord.value = key.value
+            capo.value =""
+            bpm.value = ""
+            system.value = ""
             thisEvent = new Event("startDisplay");
             document.dispatchEvent(thisEvent);
         } else if (e.target === addingSong) {
@@ -238,7 +252,10 @@ document.addEventListener("DOMContentLoaded", () => {
                                 songName: songName.value,
                                 author: author.value,
                                 key: key.value,
-                                firstChord: firstChord.value
+                                firstChord: firstChord.value,
+                                capo: capo.value ,
+                                bpm: bpm.value,
+                                system: system.value
                             }),
                         });
                         const data = await response.json();
@@ -252,6 +269,9 @@ document.addEventListener("DOMContentLoaded", () => {
                             author.value = "";
                             key.value = "C";
                             firstChord.value = key.value
+                            capo.value = ""
+                            bpm.value = ""
+                            system.value = ""
                         } else {
                         // failure
                             message.textContent = data.msg;
@@ -275,7 +295,10 @@ document.addEventListener("DOMContentLoaded", () => {
                             songName: songName.value,
                             author: author.value,
                             key: key.value,
-                            firstChord: firstChord.value
+                            firstChord: firstChord.value,
+                            capo: capo.value,
+                            bpm: bpm.value,
+                            system: system.value
                         }),
                     });
                     const data = await response.json();
@@ -286,6 +309,9 @@ document.addEventListener("DOMContentLoaded", () => {
                         author.value = "";
                         key.value = "C";
                         firstChord.value = key.value
+                        capo.value = ""
+                        bpm.value = ""
+                        system.value = ""
                         thisEvent = new Event("startDisplay");
                         document.dispatchEvent(thisEvent);
                     } else {
@@ -314,6 +340,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     author.value = data.song.author;
                     key.value = data.song.key;
                     firstChord.value = data.song.firstChord
+                    capo.value = data.song.capo
+                    bpm.value = data.song.bpm
+                    system.value = data.song.system
                     showing.style.display = "none";
                     showing = editSong;
                     showing.style.display = "block";

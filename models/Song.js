@@ -25,12 +25,12 @@ const SongSchema = new mongoose.Schema({
     capo:{
         type:Number,
     },
-    bmp:{
+    bpm:{
         type:Number,
     },
     system:{
         type:String,
-        enum:['American','Italian']
+        enum:['Letters','Notes']
     },
     createdBy:{
         type:mongoose.Types.ObjectId,
