@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken')
 
 const SongSchema = new mongoose.Schema({
-    name:{
+    songName:{
         type:String,
         required:[true,'Please provide song name'],
         maxlength:50
@@ -25,12 +25,12 @@ const SongSchema = new mongoose.Schema({
     capo:{
         type:Number,
     },
-    bmp:{
+    bpm:{
         type:Number,
     },
     system:{
         type:String,
-        enum:['American','Italian']
+        enum:['Letters','Notes']
     },
     createdBy:{
         type:mongoose.Types.ObjectId,

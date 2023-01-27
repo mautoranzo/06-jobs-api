@@ -21,8 +21,8 @@ const createSong = async (req,res) =>{
 }
 
 const updateSong = async (req,res) =>{
-    const {body:{name, key},user:{userId}, params:{id:songId}} = req
-    if(!name || !key) throw new BadRequestError ('Name and key fields cannot be empty')
+    const {body:{songName, key},user:{userId}, params:{id:songId}} = req
+    if(!songName || !key) throw new BadRequestError ('Name and key fields cannot be empty')
     const song = await Song.findOneAndUpdate({_id:songId, createdBy:userId}, req.body,{new:true,runValidators:true})
     if(!song) throw new NotFoundError(`No song with id ${songId}`)
     res.status(StatusCodes.OK).json({song}) 
@@ -32,7 +32,7 @@ const deleteSong = async (req,res) =>{
     const {user:{userId}, params:{id:songId}} = req
     const song = await Song.findOneAndRemove({_id:songId, createdBy:userId})
     if(!song) throw new NotFoundError(`No song with id ${songId}`)
-    res.status(StatusCodes.OK).json({msg:`${song.name} song with id ${songId} deleted`}) 
+    res.status(StatusCodes.OK).json({msg:`${song.songName} song with id ${songId} deleted`}) 
 }
 
 module.exports = {
